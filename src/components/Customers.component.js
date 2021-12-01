@@ -8,11 +8,16 @@ class CustomersComponent extends Component {
         this.state = {
             customers: []
         }
+        this.addCustomer = this.addCustomer.bind(this);
+
     }
 
     componentDidMount() {
     }
 
+    addCustomer(){
+        this.props.history.push("/add-customer");
+    }
 
     deleteCustomer(id) {
         Swal.fire({
