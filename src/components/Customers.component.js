@@ -33,7 +33,18 @@ class CustomersComponent extends Component {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Delete",
-        })
+        }).then((result) =>{
+            if (result.isConfirmed){
+                CustomerDataService.deleteCustomer(id)
+                    .then((response) =>{
+                        console.log(response.data);
+                        window.location.reload();
+                    })
+                    .catch((e) =>{
+                    console.log(e);
+                });
+            }
+        });
     }
 
     handleSearch(searchValue){
@@ -89,7 +100,9 @@ class CustomersComponent extends Component {
                             <td>{customer.emailAddress}</td>
                             <td>{customer.category}</td>
                             <td>
-                                <button className="btn btn-danger">
+                                <button
+                                    onClick={() => this.deleteCustomer(customer.id)}
+                                    className="btn btn-danger">
                                     Delete
                                 </button>
                             </td>
