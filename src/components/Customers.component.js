@@ -15,6 +15,7 @@ class CustomersComponent extends Component {
 
     componentDidMount() {
         CustomerDataService.getCustomers().then((res) =>{
+            this.originData = res.data
             this.setState({customers: res.data});
         });
     }
@@ -35,11 +36,37 @@ class CustomersComponent extends Component {
         })
     }
 
+    handleSearch(searchValue){
+        if (searchValue !== ""){
+            const filteredRows =[];
+            this.originData.forEach((customer) =>{
+                const firstNameMatch =
+                    customer.firstName.toUpperCase().indexOf(searchValue.toUpperCase()) >
+                    -1;
+                const lastNameMatch =
+                    customer.lastName.toUpperCase().indexOf(searchValue.toUpperCase()) >
+                    -1;
+                if (firstNameMatch || lastNameMatch){
+                    filteredRows.push(customer);
+                }
+            });
+            this.setState({customers: filteredRows});
+        } else{
+            this.setState({customers: this.originData});
+        }
+    }
 
     render() {
         return (
             <div>
                 <h2 className="text-center">Customers List</h2>
+                <div className="d-flex justify-content-between">
+                    <button className="btn btn-success" onClick={this.addCustomer}>
+                        Add Customer
+                    </button>
+                    <input className="w-25" type="text"
+                           onChange={(e) =>this.handleSearch(e.target.value)} />
+                </div>
 
               <div className="row">
                   <table className="table table-striped table-bordered">
