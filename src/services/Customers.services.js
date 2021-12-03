@@ -1,6 +1,6 @@
 import http from "../http-common/http-common";
 
-export class CustomersServices{
+export class CustomerDataService{
     getCustomers(){
         return http.get("/customers");
     }
@@ -13,4 +13,4 @@ export class CustomersServices{
     }
 }
 
-export default new CustomersServices();
+export default new CustomerDataService();

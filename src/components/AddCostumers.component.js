@@ -1,44 +1,39 @@
-import {useFormik} from "formik";
+
+import {useFormik} from 'formik';
 import * as yup from 'yup';
-import {CustomersServices} from "../services/Customers.services";
+import {CustomerDataService} from "../services/Customers.services"
 
 
-function AddCostumersComponent(props){
+function AddCustomerComponent(props) {
+
+
 
   const validationSchema = yup.object({
-    firstName: yup.string().required('This is a required Field'),
-    lastName: yup.string().required('This is a required Field'),
-    birthDate: yup.string()('Please enter a valid date').required('This is a required Field'),
-    jobTitle: yup.string().required('This is a required Field'),
-    category: yup.string().required('This is a required Field'),
-    emailAddress: yup.string().required('This is a required Field').email('Invalid email format'),
-    street: yup.string().required('This is a required Field'),
-    houseNumber: yup.string().required('This is a required Field'),
-    state: yup.string().required('This is a required Field'),
-    country: yup.string().required('This is a required Field'),
-    city: yup.string().required('This is a required Field'),
-    zipCode: yup.string().required('This is a required Field')
+    firstName: yup.string().required('This is a required Field.'),
+    lastName: yup.string().required('This is a required Field.'),
+    birthDate: yup.date('Please enter a valid date').required('This is a required Field.'),
+    jobTitle: yup.string().required('This is a required Field.'),
+    category: yup.string().required('This is a required Field.'),
+    emailAddress : yup.string().required('This is a required Field').email('Invalid email format'),
+    street: yup.string().required('This is a required Field.'),
+    houseNumber: yup.number().required('This is a required Field.'),
+    state: yup.string().required('This is a required Field.'),
+    country: yup.string().required('This is a required Field.'),
+    city: yup.string().required('This is a required Field.'),
+    zipCode: yup.string().required('This is a required Field.')
   })
+
   const formik = useFormik({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      birthDate: '',
-      jobTitle: '',
-      category: '',
-      emailAddress: '',
-      street: '',
-      houseNumber: '',
-      state: '',
-      country: '',
-      city: '',
-      zipCode: '',
-    },
-    onSubmit:(values) =>{
+    onSubmit: (values) => {
+
+      CustomerDataService.addCustomer(customer).then(res => {
+        props.history.push("/customers");
+      })
+
       let customer = {
         firstName: values.firstName,
         lastName: values.lastName,
-        birthDate: values.birthDate,
+        birthdate: values.birthDate,
         jobTitle: values.jobTitle,
         category: values.category,
         emailAddress: values.emailAddress,
@@ -51,19 +46,32 @@ function AddCostumersComponent(props){
           zipCode: values.zipCode,
         }
       }
-      CustomersServices.addCustomer(customer).then(res =>{
-        props.history.push("/customers");
-      })
     },
-    validationSchema
 
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      birthDate: '',
+      jobTitle: '',
+      category: '',
+      emailAddress : '',
+      street: '',
+      houseNumber: '',
+      state: '',
+      country: '',
+      city: '',
+      zipCode: '',
+    },
+
+    validationSchema
   })
 
 
-  const cancel =() =>{
-    props.history.push('/customers')
+  const cancel = () => {
+    props.history.push('/customers');
   }
-  return(
+
+  return (
       <div>
         <div className="container">
           <div className="row">
@@ -172,4 +180,5 @@ function AddCostumersComponent(props){
       </div>
   )
 }
-export default AddCostumersComponent
+
+export default AddCustomerComponent
