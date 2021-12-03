@@ -1,4 +1,5 @@
 import {Component} from "react";
+import ProductDataService from "../services/Product.services"
 
 class ProductComponent extends Component{
     constructor(props) {
@@ -9,7 +10,7 @@ class ProductComponent extends Component{
         }
     }
     componentDidMount() {
-        
+        ProductDataService.getProducts().then((res : a))
     }
 
     render(){
